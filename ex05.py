@@ -1,44 +1,41 @@
 import sys
 
 
-def get_list_values(data_structure, temp=[]):
+def get_list_values(data_structure):
+    temp = ""
     for item in data_structure:
-        if type(item) == list:
-            temp = get_list_values(item, temp)
-
+        if isinstance(item, list):
+            temp += get_list_values(item)
         else:
-            temp.append(item)
-
+            temp += item
     return temp
 
 
 def negation_normal_form(str_: str) -> str:
     stn = standard_notation(str_)
     check = "".join(stn)
-    temp = infix_to_nnf(check)
-    # res = ""
-    # for elem in temp:
-    #     res += "".join(elem)
-    return temp
+    temp_ = infix_to_nnf(check)
+    return temp_
 
 
 def apply_demorgans(node: list):
     # print(node)
     if node[0] == "!" and len(node[1]) > 1:
-        if node[1][2] == "&":
-            return [
-                apply_demorgans(["!", node[1][0]]),
-                apply_demorgans(["!", node[1][1]]),
-                "|",
-            ]
-        elif node[1][2] == "|":
-            return [
-                apply_demorgans(["!", node[1][0]]),
-                apply_demorgans(["!", node[1][1]]),
-                "&",
-            ]
+        if len(node[1]) > 2:
+            if node[1][2] == "&":
+                return [
+                    apply_demorgans(["!", node[1][0]]),
+                    apply_demorgans(["!", node[1][1]]),
+                    "|",
+                ]
+            elif node[1][2] == "|":
+                return [
+                    apply_demorgans(["!", node[1][0]]),
+                    apply_demorgans(["!", node[1][1]]),
+                    "&",
+                ]
         else:
-            return node[1]
+            return node[1][0]
     elif node[0] == "!":
         return [node[1], node[0]]
     else:
@@ -47,7 +44,8 @@ def apply_demorgans(node: list):
 
 def infix_to_nnf(tokens):
     # Applique De Morgan's Laws (doubleneg and stuff)
-    stack = list()
+    # print(tokens)
+    stack = []
     for token in tokens:
         if token != ")":  # Tant que avant ou dans parenthese
             stack.append(token)
@@ -64,8 +62,7 @@ def infix_to_nnf(tokens):
                     stack.append(apply_demorgans(["!", sub_expression[0]]))
             else:
                 stack.append(sub_expression)
-
-    nnf_expression = "".join(get_list_values(stack))
+    nnf_expression = get_list_values(stack)
     return nnf_expression
 
 
@@ -119,26 +116,49 @@ def standard_notation(str_):
             op2 = stack.pop()
             op1 = stack.pop()
             stack.append("(" + str(op1) + str(op2) + elem + ")")
+    # print(stack)
     return stack
 
+# (
+#     (A!B|)&(B!)A|)!)
+#      A!B& | b!a&
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2 or len(sys.argv) > 3:
-        print("Please enter 1 string or debug beware with exclamation point")
-        sys.exit(0)
-    str_ = sys.argv[1]
-    if str_ == "debug":
-        print("input is AB&! expected is A!B!|")
-        print(negation_normal_form("AB&!"))
-        # print("input is AB|! expected is A!B!&")
-        # print(negation_normal_form("AB|!"))
-        # print("input is AB> expected is A!B|")
-        # print(negation_normal_form("AB>"))
-        # print("input is AB= expected is AB&A!B!&|")
-        # print(negation_normal_form("AB="))
-        # print("not the same because we don't fully simplify and its ok")
-        # print("input is AB|C&! expected is A!B!&C!|")
-        # print(negation_normal_form("AB|C&!"))
+    #FROM SUBJECT
+    print("input is AB&! expected is A!B!|")
+    print(negation_normal_form("AB&!"))
+    print("input is AB|! expected is A!B!&")
+    print(negation_normal_form("AB|!"))
+    print("input is AB> expected is A!B|")
+    print(negation_normal_form("AB>"))
+    print("input is AB= expected is AB&A!B!&|")
+    print("not the same and its ok")
+    print(negation_normal_form("AB="))
+    print("input is AB|C&! expected is A!B!&C!|")
+    print(negation_normal_form("AB|C&!"))
+    #FROM else
+    print("input is A expected is A")
+    print(negation_normal_form("A"))
+    print("input is A! expected is A!")
+    print(negation_normal_form("A!"))
+    print("input is AB|! expected is A!B!&")
+    print(negation_normal_form("AB|!"))
+    print("input is AB>! expected is AB!&")
+    print(negation_normal_form("AB>!"))
+    print("input is AB=! expected is flemme")
+    print(negation_normal_form("AB=!"))
 
-    else:
-        negation_normal_form(str_)
+    # print("input is ABC|| expected is ABC||")
+    # print(negation_normal_form("ABC||"))
+    # print("input is ABC||! expected is ")
+    # print(negation_normal_form("ABC||!"))
+    # print("input is ABC&| expected is ")
+    # print(negation_normal_form("ABC&|"))
+    # print("input is ABC|& expected is ")
+    # print(negation_normal_form("ABC|&"))
+    # print("input is ABC&|! expected is ")
+    # print(negation_normal_form("ABC&|!"))
+    # print("input is ABC^^ expected is ")
+    # print(negation_normal_form("ABC^^"))
+    # print("input is ABC>> expected is ")
+    # print(negation_normal_form("ABC>>"))

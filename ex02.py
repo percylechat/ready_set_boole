@@ -1,12 +1,23 @@
 import sys
 
 # https://fr.wikipedia.org/wiki/Code_de_Gray
+# Le code de Gray, également appelé code Gray ou code binaire réfléchi,
+# est un type de codage binaire permettant de ne modifier qu'un seul bit à la
+# fois quand un nombre est augmenté d'une unité.
 
 
-def gray_code(one: int) -> int:
-    if one == 0:  # special case, since 0 is empty, no need to convertt anything
-        return one
-    bin_ = bit_converter(one)  # convert int to str bit equivalent
+def gray_code(n: int) -> int:
+    try:
+        n = int(n)
+    except ValueError or AssertionError:
+        print("Wrong input")
+        sys.exit(0)
+    if n < 0:
+        print("Non natural number")
+        sys.exit(0)
+    if n == 0:  # special case, since 0 is empty, no need to convertt anything
+        return n
+    bin_ = bit_converter(n)  # convert int to str bit equivalent
     res = "1"  # tjr 1 car nombre ops, mais si 0 inclu on check avant et on enverrait 0 ou pas
     i = 1
     while i < len(bin_):  # si indice et indice -1 pareil 0 else 1
@@ -85,38 +96,21 @@ def bit_vizualizer(num):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2 or len(sys.argv) > 3:
-        print("Please enter 1 natural number and 'debug' or just 'full' option")
-        sys.exit(0)
-    try:
-        one = int(sys.argv[1])
-    except ValueError or AssertionError:
-        print("Wrong input")
-        sys.exit(0)
-    if one < 0:
-        print("Wrong input")
-        sys.exit(0)
-    if len(sys.argv) == 3:
-        if sys.argv[2] == "debug":
-            print("Result is", gray_code_debug(one))
-        elif sys.argv[2] == "full":
-            print("input 0, expected is 0")
-            print("Result is", gray_code(0))
-            print("input 1, expected is 1")
-            print("Result is", gray_code(1))
-            print("input 2, expected is 3")
-            print("Result is", gray_code(2))
-            print("input 3, expected is 2")
-            print("Result is", gray_code(3))
-            print("input 4, expected is 6")
-            print("Result is", gray_code(4))
-            print("input 5, expected is 7")
-            print("Result is", gray_code(5))
-            print("input 6, expected is 5")
-            print("Result is", gray_code(6))
-            print("input 7, expected is 4")
-            print("Result is", gray_code(7))
-            print("input 8, expected is 12")
-            print("Result is", gray_code(8))
-    else:
-        print("Result is", gray_code(one))
+    print("input 0, expected is 0")
+    print("Result is", gray_code(0))
+    print("input 1, expected is 1")
+    print("Result is", gray_code(1))
+    print("input 2, expected is 3")
+    print("Result is", gray_code(2))
+    print("input 3, expected is 2")
+    print("Result is", gray_code(3))
+    print("input 4, expected is 6")
+    print("Result is", gray_code(4))
+    print("input 5, expected is 7")
+    print("Result is", gray_code(5))
+    print("input 6, expected is 5")
+    print("Result is", gray_code(6))
+    print("input 7, expected is 4")
+    print("Result is", gray_code(7))
+    print("input 8, expected is 12")
+    print("Result is", gray_code(8))

@@ -5,6 +5,15 @@ def multiplier(a: int, b: int) -> int:
     """compelxite temporelle (temps que prend l algo): depend de b ou a mais un seul des 2 donc n1
     complexite spatiale (memoire allouée): pareil 3 variables sans dependance a b donc o1
     """
+    try:
+        a = int(a)
+        b = int(b)
+    except ValueError or AssertionError:
+        print("Wrong input")
+        sys.exit(0)
+    if a < 0 or b < 0:
+        print("Non natural number")
+        sys.exit(0)
     result = 0
     while b > 0:
         if b & 1:  # Check if the least significant bit of b is 1
@@ -17,6 +26,12 @@ def multiplier(a: int, b: int) -> int:
 
 
 def multiplier_debug(a, b):
+    try:
+        a = int(a)
+        b = int(b)
+    except ValueError or AssertionError:
+        print("Wrong input")
+        sys.exit(0)
     print("First value")
     bit_vizualizer(a)
     print("second value")
@@ -64,20 +79,16 @@ def bit_vizualizer(num):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3 or len(sys.argv) > 4:
-        print("Please enter 2 natural numbers and 'debug' option")
-        sys.exit(0)
-    try:
-        one = int(sys.argv[1])
-        two = int(sys.argv[2])
-    except ValueError or AssertionError:
-        print("Wrong input")
-        sys.exit(0)
-    if one <= 0 or two <= 0:
-        print("Wrong input")
-        sys.exit(0)
-    if len(sys.argv) == 4:
-        if sys.argv[3] == "debug":
-            print("Result is", multiplier_debug(one, two))
-    else:
-        print("Result is", multiplier(one, two))
+    print(
+        "warning, i am lazy so the debug won't work for numbers beyond 256. Code still works!"
+    )
+    print("tested: 0, 0, expected 0")
+    print(multiplier(0, 0))
+    print("tested: 1, 0, expected 1")
+    print(multiplier(1, 0))
+    print("tested: 0, 1, expected 1")
+    print(multiplier(0, 1))
+    print("tested: 4, 20, expected 80")
+    print(multiplier(4, 20))
+    print("tested: 100, 25, expected 2500")
+    print(multiplier(100, 25))

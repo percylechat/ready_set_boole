@@ -14,7 +14,7 @@ def powerset_gen(s: list) -> list:
     return subsets + new_subsets
 
 
-def powerset(set_: set) -> set[frozenset]:
+def powerset(set_: set) -> set:
     set__ = powerset_gen(list(set_))
     res = set()
     for elem in set__:
@@ -23,16 +23,5 @@ def powerset(set_: set) -> set[frozenset]:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Please enter 1 string. test empty set in main")
-        sys.exit(0)
-    i = 1
-    num = set()
-    while i < len(sys.argv):
-        if not sys.argv[i].isnumeric():
-            print("Please enter only numbers")
-            print(sys.argv[i])
-            sys.exit(0)
-        num.add(int(sys.argv[i]))
-        i += 1
-    print(powerset(num))
+    ex: set = (1, 2, 3)
+    print(powerset(ex))

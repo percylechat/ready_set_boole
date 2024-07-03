@@ -1,5 +1,7 @@
 import sys
 
+"""one is true 0 is false"""
+
 
 def eval_formula(str_: str) -> bool:
     """
@@ -63,6 +65,9 @@ def eval_formula(str_: str) -> bool:
         else:
             print("Error, invalid formula")
             sys.exit(1)
+    if len(stack) > 1:
+        print("Error, invalid formula")
+        sys.exit(1)
     return bool(stack[0])
 
 
@@ -112,27 +117,24 @@ def eval_formula_debug(str_):
         else:
             print("Error, invalid formula")
             sys.exit(1)
+    if len(stack) > 1:
+        print("Error, invalid formula")
+        sys.exit(1)
     return bool(stack[0])
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2 or len(sys.argv) > 3:
-        print("Please enter 1 string and 'debug' or 'example' option")
-        sys.exit(0)
-    str_ = sys.argv[1]
-    if len(sys.argv) == 3:
-        if sys.argv[2] == "debug":
-            print("Result is", eval_formula_debug(str_))
-    elif sys.argv[1] == "example":
-        print("input is 10& expected is false")
-        print(eval_formula("10&"))
-        print("input is 10| expected is true")
-        print(eval_formula("10|"))
-        print("input is 11> expected is true")
-        print(eval_formula("11>"))
-        print("input is 10= expected is false")
-        print(eval_formula("10="))
-        print("input is 1011||= expected is true")
-        print(eval_formula("1011||="))
-    else:
-        print(eval_formula(str_))
+    print("input is 1 expected is true")
+    print(eval_formula("1"))
+    print("input is 0 expected is false")
+    print(eval_formula("0"))
+    print("input is 10& expected is false")
+    print(eval_formula("10&"))
+    print("input is 10| expected is true")
+    print(eval_formula("10|"))
+    print("input is 11> expected is true")
+    print(eval_formula("11>"))
+    print("input is 10= expected is false")
+    print(eval_formula("10="))
+    print("input is 1011||= expected is true")
+    print(eval_formula("1011||="))

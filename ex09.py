@@ -22,15 +22,13 @@ def powerset_gen(s):
 
 def powerset(str_):
     set_ = powerset_gen(list(str_))
-    # print(set_)
     res = set()
     for elem in set_:
         res.add(frozenset(elem))
-    # print(res)
     return res
 
 
-def eval_set(str_: str, set_: list[set]) -> set[frozenset]:
+def eval_set(str_: str, set_: list) -> set:
     variables = count_different_letters(str_)
     variables = list(variables)
     proper_letters = [*set(variables)]
@@ -40,24 +38,13 @@ def eval_set(str_: str, set_: list[set]) -> set[frozenset]:
     megaset = set()
     for elem in set_:
         megaset = megaset | elem
-    # print(str(set_))
-    # for elem in set_:
-    #     S = ""
-    #     for el in elem:
-    #         # print(el)
-    #         S += str(el)
-    #     megaset = megaset | powerset(S)
     stack = []
     ref = dict(zip(proper_letters, set_))
-    # print(ref)
     for elem in str_:
-        # print(elem)
         if elem.isalpha():
             stack.append(ref[elem])
         elif elem == "!":
             op1 = stack.pop()
-            print("op1", op1)
-            print("mega", megaset)
             op2 = megaset - op1
             stack.append(op2)
         elif elem == ">":
@@ -82,21 +69,12 @@ def eval_set(str_: str, set_: list[set]) -> set[frozenset]:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Please enter 1 string and 'debug' option")
-        sys.exit(0)
-    str_ = sys.argv[1]
-    set_ = sys.argv[2]
-    if len(sys.argv) == 3:
-        if sys.argv[2] == "debug":
-            val1 = [set([0, 1, 2]), set([0, 4, 5])]
-            print("input is AB& and ", val1, " expected is [0]")
-            print(eval_set("AB&", val1))
-            val2 = [set([0, 1, 2]), set([3, 4, 5])]
-            print("input is AB| and ", val2, " expected is [0, 1, 2, 3, 4, 5]")
-            print(eval_set("AB|", val2))
-            val3 = [set([0, 1, 2])]
-            print("input is A! and ", val3, " expected is [] / empty set")
-            print(eval_set("A!", val3))
-    else:
-        eval_set(str_, set(set_))
+    val1 = [set([0, 1, 2]), set([0, 4, 5])]
+    print("input is AB& and ", val1, " expected is [0]")
+    print(eval_set("AB&", val1))
+    val2 = [set([0, 1, 2]), set([3, 4, 5])]
+    print("input is AB| and ", val2, " expected is [0, 1, 2, 3, 4, 5]")
+    print(eval_set("AB|", val2))
+    val3 = [set([0, 1, 2])]
+    print("input is A! and ", val3, " expected is [] / empty set")
+    print(eval_set("A!", val3))
